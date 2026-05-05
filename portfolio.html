@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Portfolio — Benazir's Photography</title>
+<meta name="description" content="Selected work — food, drink, product, and video photography by Benazir's Photography, Rochester MN.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,300..700&display=swap">
+<!-- Adobe Typekit (Aktiv Grotesk + Aktiv Grotesk Extended). Loaded only on whitelisted domains. -->
+<script>
+  (function () {
+    var host = location.hostname;
+    var allow = host && host !== 'localhost' && !host.endsWith('.local') && !/^\d/.test(host);
+    if (allow) {
+      var l = document.createElement('link');
+      l.rel = 'stylesheet';
+      l.href = 'https://use.typekit.net/yec0vnt.css';
+      document.head.appendChild(l);
+    }
+  })();
+</script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body data-screen-label="02 Portfolio">
+
+<!-- ============== NAV ============== -->
+<header class="nav is-scrolled">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__brand" aria-label="Benazir's Photography home">
+      <img class="nav__logo" src="assets/logos/horizontal-cream.svg" alt="Benazir's Photography" />
+    </a>
+
+    <button class="nav__hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <ul class="nav__links">
+      <li><a class="nav__link is-active" href="portfolio.html">Work</a></li>
+      <li><a class="nav__link" href="index.html#about">About</a></li>
+      <li><a class="nav__link" href="index.html#specialties">Services</a></li>
+      <li><a class="nav__link" href="index.html#contact">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- ============== MINI HERO ============== -->
+<section class="mini-hero">
+  <div class="mini-hero__pattern" aria-hidden="true"></div>
+  <svg class="b-mark" viewBox="0 0 22 28" fill="none" aria-hidden="true">
+    <g stroke="var(--pepper)" stroke-width="1.4" fill="none" stroke-linecap="square">
+      <path d="M2 1 V27" />
+      <path d="M2 1 H11 a8 7 0 0 1 0 14 H2" />
+      <path d="M2 13 H13 a9 7 0 0 1 0 14 H2" />
+    </g>
+  </svg>
+  <h1>Portfolio</h1>
+  <div class="mini-hero__cats">Food · Drink · Product · Video</div>
+</section>
+
+<!-- ============== FILTER ============== -->
+<nav class="filter-bar" aria-label="Filter portfolio">
+  <button class="filter-bar__btn is-active" data-filter="all">All</button>
+  <button class="filter-bar__btn" data-filter="food">Food</button>
+  <button class="filter-bar__btn" data-filter="drink">Drink</button>
+  <button class="filter-bar__btn" data-filter="product">Product</button>
+  <button class="filter-bar__btn" data-filter="video">Video</button>
+</nav>
+
+<!-- ============== GRID ============== -->
+<section class="portfolio-grid">
+  <div class="portfolio-grid__inner">
+
+    <!-- FOOD -->
+    <a href="#" class="pf-item" data-category="food">
+      <img src="portfolio/food/mezza9-04102.jpg" alt="Pan-seared salmon in a black bowl on warm wood — Mezza 9" loading="lazy">
+      <div class="overlay"><span class="overlay__label">Food</span></div>
+    </a>
+
+    <a href="#" class="pf-item" data-category="drink">
+      <img src="portfolio/drink/bp-19.jpg" alt="Layered red coupe with orchid bloom — Bitter & Pour" loading="lazy">
+      <div class="overlay"><span class="overlay__label">Drink</span></div>
+    </a>
+
+    <a href="#" class="pf-item" data-category="product">
+      <img src="portfolio/product/lls-2632.jpg" alt="LL's Kitchen pecan pie granola bar held over scattered pecans" loading="lazy">
+      <div class="overlay"><span class="overlay__label">Product</span></div>
+    </a>
+
+    <a href="#" class="pf-item" data-category="food">
+      <img src="portfolio/food/cameo-22.jpg" alt="Heirloom tomato and mozzarella salad — Cameo" loading="lazy">
+      <div class="overlay"><span class="overlay__label">Food</span></div>
+    </a>
+
+    <a href="#" class="pf-item" data-category="drink">
+      <img src="portfolio/drink/bp-29.jpg" alt="Three coupe cocktails in a moody flight" loading="lazy">
+      <div class="overlay"><span class="overlay__label">Drink</span></div>
+    </a>
+
+    <a href="#" class="pf-item" data-category="food">
+      <img src="portfolio/food/cameo-1.jpg" alt="Pan-seared salmon plated dramatically — Cameo" loading="lazy">
+      <div class="overlay"><span class="overlay__label">Food</span></div>
+    </a>
+
+    <a href="#" class="pf-item" data-category="product">
+      <img src="portfolio/product/sf-087.jpg" alt="Stable Feed Papaya Chia packaging on white" loading="lazy">
+      <div class="overlay"><span class="overlay__label">Product</span></div>
+    </a>
+
+    <a href="#" class="pf-item" data-category="food">
+      <img src="portfolio/food/styling-bg.jpg" alt="Cupcakes styled with pampas grass and pumpkin in deep moody light" loading="lazy">
+      <div class="overlay"><span class="overlay__label">Editorial</span></div>
+    </a>
+
+    <a href="#" class="pf-item" data-category="drink">
+      <img src="portfolio/drink/bp-06.jpg" alt="Bartender pouring red cocktail into highball — Bitter & Pour" loading="lazy">
+      <div class="overlay"><span class="overlay__label">Drink</span></div>
+    </a>
+
+    <a href="#" class="pf-item" data-category="food">
+      <img src="portfolio/food/ootori-13.jpg" alt="Mango-topped sushi rolls on bamboo board — Ootori" loading="lazy">
+      <div class="overlay"><span class="overlay__label">Food</span></div>
+    </a>
+
+    <a href="#" class="pf-item" data-category="drink">
+      <img src="portfolio/drink/bp-14.jpg" alt="Long red drink with floral garnish, bartender bokeh in back — Bitter & Pour" loading="lazy">
+      <div class="overlay"><span class="overlay__label">Drink</span></div>
+    </a>
+
+    <a href="#" class="pf-item" data-category="product">
+      <img src="portfolio/product/sf-107.jpg" alt="Stable Feed product flatlay with chia variations arranged in a circle" loading="lazy">
+      <div class="overlay"><span class="overlay__label">Product</span></div>
+    </a>
+
+    <a href="#" class="pf-item" data-category="food">
+      <img src="portfolio/food/mezza9-0973.jpg" alt="Strawberry matcha layered drink with cherry blossoms — Mezza 9" loading="lazy">
+      <div class="overlay"><span class="overlay__label">Food</span></div>
+    </a>
+
+    <a href="#" class="pf-item" data-category="drink">
+      <img src="portfolio/drink/bp-4880.jpg" alt="Coupe cocktail with foam smiley face on dark bar — Bitter & Pour" loading="lazy">
+      <div class="overlay"><span class="overlay__label">Drink</span></div>
+    </a>
+
+    <a href="#" class="pf-item" data-category="product">
+      <img src="portfolio/product/lls-2639.jpg" alt="LL's Kitchen pumpkin pie spice granola with mini pumpkins" loading="lazy">
+      <div class="overlay"><span class="overlay__label">Product</span></div>
+    </a>
+
+    <a href="#" class="pf-item" data-category="food">
+      <img src="portfolio/food/ziggys-127.jpg" alt="Three-plate spread with cheeseburger, waffle fries, and dips — Ziggys" loading="lazy">
+      <div class="overlay"><span class="overlay__label">Food</span></div>
+    </a>
+
+    <a href="#" class="pf-item" data-category="drink">
+      <img src="portfolio/drink/bp-34.jpg" alt="Single deep amber martini glass on dark bar with bokeh — Bitter & Pour" loading="lazy">
+      <div class="overlay"><span class="overlay__label">Drink</span></div>
+    </a>
+
+    <a href="#" class="pf-item" data-category="food">
+      <img src="portfolio/food/ootori-29.jpg" alt="Three sushi boards arranged on grey concrete — Ootori" loading="lazy">
+      <div class="overlay"><span class="overlay__label">Food</span></div>
+    </a>
+
+    <a href="#" class="pf-item" data-category="drink">
+      <img src="portfolio/drink/bp-4776.jpg" alt="Three coupe cocktails lined up on dark bar — Bitter & Pour" loading="lazy">
+      <div class="overlay"><span class="overlay__label">Drink</span></div>
+    </a>
+
+    <a href="#" class="pf-item" data-category="food">
+      <img src="portfolio/food/ziggys-025.jpg" alt="Stacked fried chicken sandwich, close-up with pickles — Ziggys" loading="lazy">
+      <div class="overlay"><span class="overlay__label">Food</span></div>
+    </a>
+
+    <!-- VIDEO category — show photo placeholders with play overlays until reels are ready -->
+    <!-- VIDEO: placeholder until reel is ready -->
+    <a href="#" class="pf-item pf-item--video" data-category="video">
+      <img src="portfolio/food/mezza9-4027.jpg" alt="Reel placeholder — restaurant environment, Mezza 9" loading="lazy">
+    </a>
+    <!-- VIDEO: placeholder until reel is ready -->
+    <a href="#" class="pf-item pf-item--video" data-category="video">
+      <img src="portfolio/drink/bp-4745.jpg" alt="Reel placeholder — cocktail action, Bitter & Pour" loading="lazy">
+    </a>
+    <!-- VIDEO: placeholder until reel is ready -->
+    <a href="#" class="pf-item pf-item--video" data-category="video">
+      <img src="portfolio/food/styling-1402.jpg" alt="Reel placeholder — pour into iced coffee, motion still" loading="lazy">
+    </a>
+
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="footer">
+  <div class="pattern-bg" style="opacity:0.08;"></div>
+
+  <div class="footer__brand">
+    <svg class="b-mark" viewBox="0 0 22 28" fill="none" aria-hidden="true">
+      <g stroke="var(--cream)" stroke-width="1.4" fill="none" stroke-linecap="square">
+        <path d="M2 1 V27" />
+        <path d="M2 1 H11 a8 7 0 0 1 0 14 H2" />
+        <path d="M2 13 H13 a9 7 0 0 1 0 14 H2" />
+      </g>
+    </svg>
+    <span class="name">Benazir's Photography</span>
+  </div>
+  <div class="footer__loc">Rochester, Minnesota · Est. 2025</div>
+
+  <div class="footer__social">
+    <a href="https://instagram.com/benazirsphotography" target="_blank" rel="noopener">Instagram</a>
+    <a href="mailto:hello@benazirsphotography.com">Email</a>
+  </div>
+
+  <div class="footer__divider"></div>
+  <div class="footer__bottom">© 2025 Benazir's Photography · All Rights Reserved</div>
+</footer>
+
+<script src="scripts.js"></script>
+</body>
+</html>
