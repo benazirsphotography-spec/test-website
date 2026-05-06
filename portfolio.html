@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,300..700&display=swap">
-<!-- Adobe Typekit (Aktiv Grotesk + Aktiv Grotesk Extended). Loaded only on whitelisted domains. -->
+<!-- Adobe Typekit (Aktiv Grotesk + Aktiv Grotesk Extended) -->
 <script>
   (function () {
     var host = location.hostname;
@@ -22,6 +22,248 @@
   })();
 </script>
 <link rel="stylesheet" href="styles.css">
+
+<style>
+  /* ── CSS VARS (brand palette) ── */
+  :root {
+    --cream:   #FCF1E2;
+    --tan:     #E9D9BF;
+    --tumeric: #CEA32B;
+    --sage:    #6B6B44;
+    --pepper:  #231C14;
+    --poppy:   #BC372E;
+    --maroon:  #521B17;
+
+    --font-display: 'aktiv-grotesk-extended', 'Archivo', sans-serif;
+    --font-body:    'aktiv-grotesk', 'Archivo', sans-serif;
+
+    --grid-gap: 10px;
+    --col-count: 3;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--pepper); color: var(--cream); font-family: var(--font-body); }
+
+  /* ── FILTER BAR ── */
+  .filter-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    padding: 10px 16px;
+    background: var(--pepper);
+    border-bottom: 1px solid rgba(252,241,226,.10);
+  }
+
+  .filter-bar__btn {
+    font-family: var(--font-display);
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: rgba(252,241,226,.55);
+    background: transparent;
+    border: 1px solid rgba(252,241,226,.18);
+    border-radius: 2px;
+    padding: 7px 18px;
+    cursor: pointer;
+    transition: color .2s, border-color .2s, background .2s;
+    white-space: nowrap;
+  }
+  .filter-bar__btn:hover,
+  .filter-bar__btn.is-active {
+    color: var(--pepper);
+    background: var(--tumeric);
+    border-color: var(--tumeric);
+  }
+
+  /* ── MASONRY GRID ── */
+  .portfolio-grid { padding: var(--grid-gap); }
+
+  .masonry {
+    column-count: var(--col-count);
+    column-gap: var(--grid-gap);
+  }
+
+  .pf-item {
+    display: block;
+    break-inside: avoid;
+    margin-bottom: var(--grid-gap);
+    position: relative;
+    overflow: hidden;
+    cursor: zoom-in;
+    background: rgba(255,255,255,.04);
+  }
+
+  .pf-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform .45s cubic-bezier(.25,.46,.45,.94), filter .35s ease;
+    filter: brightness(.95);
+  }
+  .pf-item:hover img {
+    transform: scale(1.04);
+    filter: brightness(1);
+  }
+
+  /* label overlay */
+  .pf-item__label {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 28px 14px 12px;
+    background: linear-gradient(transparent, rgba(35,28,20,.72));
+    font-family: var(--font-display);
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--cream);
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity .3s ease, transform .3s ease;
+    pointer-events: none;
+  }
+  .pf-item:hover .pf-item__label {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* video play badge */
+  .pf-item--video::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 48px; height: 48px;
+    background: rgba(252,241,226,.9) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23231C14' d='M8 5v14l11-7z'/%3E%3C/svg%3E") center/22px no-repeat;
+    border-radius: 50%;
+    pointer-events: none;
+    transition: transform .2s ease, background-color .2s ease;
+  }
+  .pf-item--video:hover::after {
+    transform: translate(-50%,-50%) scale(1.12);
+    background-color: var(--tumeric);
+  }
+
+  .pf-item.is-hidden { display: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px)  { :root { --col-count: 2; } }
+  @media (max-width: 500px)  { :root { --col-count: 1; } }
+
+  /* ── LIGHTBOX ── */
+  .lb-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(35,28,20,.96);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .lb-overlay.is-open { display: flex; }
+
+  .lb-inner {
+    position: relative;
+    max-width: min(1100px, 94vw);
+    max-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lb-img {
+    max-width: 100%;
+    max-height: 88vh;
+    object-fit: contain;
+    display: block;
+    box-shadow: 0 30px 80px rgba(0,0,0,.6);
+    border: 1px solid rgba(252,241,226,.08);
+    opacity: 0;
+    transform: scale(.97);
+    transition: opacity .3s ease, transform .3s ease;
+  }
+  .lb-overlay.is-open .lb-img {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .lb-caption {
+    position: absolute;
+    bottom: -32px;
+    left: 0; right: 0;
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 12px;
+    letter-spacing: .06em;
+    color: rgba(252,241,226,.45);
+  }
+
+  .lb-btn {
+    position: fixed;
+    background: rgba(252,241,226,.08);
+    border: 1px solid rgba(252,241,226,.14);
+    color: var(--cream);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .2s ease, border-color .2s ease;
+  }
+  .lb-btn:hover { background: var(--tumeric); border-color: var(--tumeric); color: var(--pepper); }
+
+  .lb-close {
+    top: 18px; right: 18px;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    font-size: 20px;
+    line-height: 1;
+  }
+  .lb-prev, .lb-next {
+    top: 50%; transform: translateY(-50%);
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    font-size: 22px;
+  }
+  .lb-prev { left: 14px; }
+  .lb-next { right: 14px; }
+
+  @media (max-width: 600px) {
+    .lb-prev { left: 6px; }
+    .lb-next { right: 6px; }
+    .lb-close { top: 10px; right: 10px; width: 36px; height: 36px; font-size: 16px; }
+  }
+
+  /* ── MINI-HERO fallback (in case styles.css doesn't define it) ── */
+  .mini-hero {
+    background: var(--pepper);
+    padding: 80px 24px 48px;
+    text-align: center;
+    border-bottom: 1px solid rgba(252,241,226,.08);
+  }
+  .mini-hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 5vw, 52px);
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--cream);
+    margin-top: 20px;
+  }
+  .mini-hero__cats {
+    margin-top: 10px;
+    font-size: 13px;
+    letter-spacing: .14em;
+    color: rgba(252,241,226,.45);
+    text-transform: uppercase;
+  }
+</style>
 </head>
 <body data-screen-label="02 Portfolio">
 
@@ -31,11 +273,9 @@
     <a href="index.html" class="nav__brand" aria-label="Benazir's Photography home">
       <img class="nav__logo" src="assets/logos/horizontal-cream.svg" alt="Benazir's Photography" />
     </a>
-
     <button class="nav__hamburger" aria-label="Open menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
-
     <ul class="nav__links">
       <li><a class="nav__link is-active" href="portfolio.html">Work</a></li>
       <li><a class="nav__link" href="index.html#about">About</a></li>
@@ -48,13 +288,8 @@
 <!-- ============== MINI HERO ============== -->
 <section class="mini-hero">
   <div class="mini-hero__pattern" aria-hidden="true"></div>
-  <svg class="b-mark" viewBox="0 0 22 28" fill="none" aria-hidden="true">
-    <g stroke="var(--pepper)" stroke-width="1.4" fill="none" stroke-linecap="square">
-      <path d="M2 1 V27" />
-      <path d="M2 1 H11 a8 7 0 0 1 0 14 H2" />
-      <path d="M2 13 H13 a9 7 0 0 1 0 14 H2" />
-    </g>
-  </svg>
+  <img src="assets/logos/Primary_Tagline_Cream.svg" alt="Benazir's Photography"
+       style="height:200px;width:auto;display:block;margin:0 auto;">
   <h1>Portfolio</h1>
   <div class="mini-hero__cats">Food · Drink · Product · Video</div>
 </section>
@@ -68,153 +303,348 @@
   <button class="filter-bar__btn" data-filter="video">Video</button>
 </nav>
 
-<!-- ============== GRID ============== -->
-<section class="portfolio-grid">
-  <div class="portfolio-grid__inner">
+<!-- ============================================================
+     MASONRY GRID
+     ============================================================
+     IMAGE PATHS: All src values follow the pattern /portfolio/{category}/{filename}
+     matching your GitHub /portfolio folder structure.
 
-    <!-- FOOD -->
-    <a href="#" class="pf-item" data-category="food">
-      <img src="portfolio/food/mezza9-04102.jpg" alt="Pan-seared salmon in a black bowl on warm wood — Mezza 9" loading="lazy">
-      <div class="overlay"><span class="overlay__label">Food</span></div>
-    </a>
+     Replace each src with the actual filename from your repo.
+     The data-src attribute on each <a> is used by the lightbox —
+     it should always match the <img> src.
 
-    <a href="#" class="pf-item" data-category="drink">
-      <img src="portfolio/drink/bp-19.jpg" alt="Layered red coupe with orchid bloom — Bitter & Pour" loading="lazy">
-      <div class="overlay"><span class="overlay__label">Drink</span></div>
-    </a>
+     The inline style="aspect-ratio:W/H" on each <img> reserves
+     layout space before images load. Adjust each ratio to match
+     your actual photo's orientation (landscape 4/3 · portrait 3/4
+     · square 1/1 · tall portrait 9/16 for reels).
+     ============================================================ -->
+<section class="portfolio-grid" id="portfolio">
+  <div class="masonry" id="masonryGrid">
 
-    <a href="#" class="pf-item" data-category="product">
-      <img src="portfolio/product/lls-2632.jpg" alt="LL's Kitchen pecan pie granola bar held over scattered pecans" loading="lazy">
-      <div class="overlay"><span class="overlay__label">Product</span></div>
-    </a>
+    <!-- ══ FOOD ══════════════════════════════════════════════════ -->
 
-    <a href="#" class="pf-item" data-category="food">
-      <img src="portfolio/food/cameo-22.jpg" alt="Heirloom tomato and mozzarella salad — Cameo" loading="lazy">
-      <div class="overlay"><span class="overlay__label">Food</span></div>
-    </a>
-
-    <a href="#" class="pf-item" data-category="drink">
-      <img src="portfolio/drink/bp-29.jpg" alt="Three coupe cocktails in a moody flight" loading="lazy">
-      <div class="overlay"><span class="overlay__label">Drink</span></div>
+    <a href="#" class="pf-item" data-category="food"
+       data-src="/portfolio/food/mezza9-04102.jpg"
+       data-alt="Pan-seared salmon in a black bowl on warm wood — Mezza 9">
+      <img src="/portfolio/food/mezza9-04102.jpg" style="aspect-ratio:4/3"
+           alt="Pan-seared salmon in a black bowl on warm wood — Mezza 9" loading="lazy">
+      <div class="pf-item__label">Food</div>
     </a>
 
-    <a href="#" class="pf-item" data-category="food">
-      <img src="portfolio/food/cameo-1.jpg" alt="Pan-seared salmon plated dramatically — Cameo" loading="lazy">
-      <div class="overlay"><span class="overlay__label">Food</span></div>
+    <a href="#" class="pf-item" data-category="food"
+       data-src="/portfolio/food/cameo-22.jpg"
+       data-alt="Heirloom tomato and mozzarella salad — Cameo">
+      <img src="/portfolio/food/cameo-22.jpg" style="aspect-ratio:3/4"
+           alt="Heirloom tomato and mozzarella salad — Cameo" loading="lazy">
+      <div class="pf-item__label">Food</div>
     </a>
 
-    <a href="#" class="pf-item" data-category="product">
-      <img src="portfolio/product/sf-087.jpg" alt="Stable Feed Papaya Chia packaging on white" loading="lazy">
-      <div class="overlay"><span class="overlay__label">Product</span></div>
+    <a href="#" class="pf-item" data-category="food"
+       data-src="/portfolio/food/cameo-1.jpg"
+       data-alt="Pan-seared salmon plated dramatically — Cameo">
+      <img src="/portfolio/food/cameo-1.jpg" style="aspect-ratio:4/3"
+           alt="Pan-seared salmon plated dramatically — Cameo" loading="lazy">
+      <div class="pf-item__label">Food</div>
     </a>
 
-    <a href="#" class="pf-item" data-category="food">
-      <img src="portfolio/food/styling-bg.jpg" alt="Cupcakes styled with pampas grass and pumpkin in deep moody light" loading="lazy">
-      <div class="overlay"><span class="overlay__label">Editorial</span></div>
+    <a href="#" class="pf-item" data-category="food"
+       data-src="/portfolio/food/styling-bg.jpg"
+       data-alt="Cupcakes styled with pampas grass and pumpkin in deep moody light">
+      <img src="/portfolio/food/styling-bg.jpg" style="aspect-ratio:1/1"
+           alt="Cupcakes styled with pampas grass and pumpkin in deep moody light" loading="lazy">
+      <div class="pf-item__label">Editorial</div>
     </a>
 
-    <a href="#" class="pf-item" data-category="drink">
-      <img src="portfolio/drink/bp-06.jpg" alt="Bartender pouring red cocktail into highball — Bitter & Pour" loading="lazy">
-      <div class="overlay"><span class="overlay__label">Drink</span></div>
+    <a href="#" class="pf-item" data-category="food"
+       data-src="/portfolio/food/ootori-13.jpg"
+       data-alt="Mango-topped sushi rolls on bamboo board — Ootori">
+      <img src="/portfolio/food/ootori-13.jpg" style="aspect-ratio:4/3"
+           alt="Mango-topped sushi rolls on bamboo board — Ootori" loading="lazy">
+      <div class="pf-item__label">Food</div>
     </a>
 
-    <a href="#" class="pf-item" data-category="food">
-      <img src="portfolio/food/ootori-13.jpg" alt="Mango-topped sushi rolls on bamboo board — Ootori" loading="lazy">
-      <div class="overlay"><span class="overlay__label">Food</span></div>
+    <a href="#" class="pf-item" data-category="food"
+       data-src="/portfolio/food/mezza9-0973.jpg"
+       data-alt="Strawberry matcha layered drink with cherry blossoms — Mezza 9">
+      <img src="/portfolio/food/mezza9-0973.jpg" style="aspect-ratio:3/4"
+           alt="Strawberry matcha layered drink with cherry blossoms — Mezza 9" loading="lazy">
+      <div class="pf-item__label">Food</div>
     </a>
 
-    <a href="#" class="pf-item" data-category="drink">
-      <img src="portfolio/drink/bp-14.jpg" alt="Long red drink with floral garnish, bartender bokeh in back — Bitter & Pour" loading="lazy">
-      <div class="overlay"><span class="overlay__label">Drink</span></div>
+    <a href="#" class="pf-item" data-category="food"
+       data-src="/portfolio/food/ziggys-127.jpg"
+       data-alt="Three-plate spread with cheeseburger, waffle fries, and dips — Ziggys">
+      <img src="/portfolio/food/ziggys-127.jpg" style="aspect-ratio:4/3"
+           alt="Three-plate spread with cheeseburger, waffle fries, and dips — Ziggys" loading="lazy">
+      <div class="pf-item__label">Food</div>
     </a>
 
-    <a href="#" class="pf-item" data-category="product">
-      <img src="portfolio/product/sf-107.jpg" alt="Stable Feed product flatlay with chia variations arranged in a circle" loading="lazy">
-      <div class="overlay"><span class="overlay__label">Product</span></div>
+    <a href="#" class="pf-item" data-category="food"
+       data-src="/portfolio/food/ootori-29.jpg"
+       data-alt="Three sushi boards arranged on grey concrete — Ootori">
+      <img src="/portfolio/food/ootori-29.jpg" style="aspect-ratio:3/2"
+           alt="Three sushi boards arranged on grey concrete — Ootori" loading="lazy">
+      <div class="pf-item__label">Food</div>
     </a>
 
-    <a href="#" class="pf-item" data-category="food">
-      <img src="portfolio/food/mezza9-0973.jpg" alt="Strawberry matcha layered drink with cherry blossoms — Mezza 9" loading="lazy">
-      <div class="overlay"><span class="overlay__label">Food</span></div>
+    <a href="#" class="pf-item" data-category="food"
+       data-src="/portfolio/food/ziggys-025.jpg"
+       data-alt="Stacked fried chicken sandwich close-up with pickles — Ziggys">
+      <img src="/portfolio/food/ziggys-025.jpg" style="aspect-ratio:3/4"
+           alt="Stacked fried chicken sandwich close-up with pickles — Ziggys" loading="lazy">
+      <div class="pf-item__label">Food</div>
     </a>
 
-    <a href="#" class="pf-item" data-category="drink">
-      <img src="portfolio/drink/bp-4880.jpg" alt="Coupe cocktail with foam smiley face on dark bar — Bitter & Pour" loading="lazy">
-      <div class="overlay"><span class="overlay__label">Drink</span></div>
+    <!-- ══ DRINK ══════════════════════════════════════════════════ -->
+
+    <a href="#" class="pf-item" data-category="drink"
+       data-src="/portfolio/drink/bp-19.jpg"
+       data-alt="Layered red coupe with orchid bloom — Bitter & Pour">
+      <img src="/portfolio/drink/bp-19.jpg" style="aspect-ratio:3/4"
+           alt="Layered red coupe with orchid bloom — Bitter & Pour" loading="lazy">
+      <div class="pf-item__label">Drink</div>
     </a>
 
-    <a href="#" class="pf-item" data-category="product">
-      <img src="portfolio/product/lls-2639.jpg" alt="LL's Kitchen pumpkin pie spice granola with mini pumpkins" loading="lazy">
-      <div class="overlay"><span class="overlay__label">Product</span></div>
+    <a href="#" class="pf-item" data-category="drink"
+       data-src="/portfolio/drink/bp-29.jpg"
+       data-alt="Three coupe cocktails in a moody flight — Bitter & Pour">
+      <img src="/portfolio/drink/bp-29.jpg" style="aspect-ratio:4/3"
+           alt="Three coupe cocktails in a moody flight — Bitter & Pour" loading="lazy">
+      <div class="pf-item__label">Drink</div>
     </a>
 
-    <a href="#" class="pf-item" data-category="food">
-      <img src="portfolio/food/ziggys-127.jpg" alt="Three-plate spread with cheeseburger, waffle fries, and dips — Ziggys" loading="lazy">
-      <div class="overlay"><span class="overlay__label">Food</span></div>
+    <a href="#" class="pf-item" data-category="drink"
+       data-src="/portfolio/drink/bp-06.jpg"
+       data-alt="Bartender pouring red cocktail into highball — Bitter & Pour">
+      <img src="/portfolio/drink/bp-06.jpg" style="aspect-ratio:2/3"
+           alt="Bartender pouring red cocktail into highball — Bitter & Pour" loading="lazy">
+      <div class="pf-item__label">Drink</div>
     </a>
 
-    <a href="#" class="pf-item" data-category="drink">
-      <img src="portfolio/drink/bp-34.jpg" alt="Single deep amber martini glass on dark bar with bokeh — Bitter & Pour" loading="lazy">
-      <div class="overlay"><span class="overlay__label">Drink</span></div>
+    <a href="#" class="pf-item" data-category="drink"
+       data-src="/portfolio/drink/bp-14.jpg"
+       data-alt="Long red drink with floral garnish — Bitter & Pour">
+      <img src="/portfolio/drink/bp-14.jpg" style="aspect-ratio:3/4"
+           alt="Long red drink with floral garnish — Bitter & Pour" loading="lazy">
+      <div class="pf-item__label">Drink</div>
     </a>
 
-    <a href="#" class="pf-item" data-category="food">
-      <img src="portfolio/food/ootori-29.jpg" alt="Three sushi boards arranged on grey concrete — Ootori" loading="lazy">
-      <div class="overlay"><span class="overlay__label">Food</span></div>
+    <a href="#" class="pf-item" data-category="drink"
+       data-src="/portfolio/drink/bp-4880.jpg"
+       data-alt="Coupe cocktail with foam smiley face on dark bar — Bitter & Pour">
+      <img src="/portfolio/drink/bp-4880.jpg" style="aspect-ratio:1/1"
+           alt="Coupe cocktail with foam smiley face on dark bar — Bitter & Pour" loading="lazy">
+      <div class="pf-item__label">Drink</div>
     </a>
 
-    <a href="#" class="pf-item" data-category="drink">
-      <img src="portfolio/drink/bp-4776.jpg" alt="Three coupe cocktails lined up on dark bar — Bitter & Pour" loading="lazy">
-      <div class="overlay"><span class="overlay__label">Drink</span></div>
+    <a href="#" class="pf-item" data-category="drink"
+       data-src="/portfolio/drink/bp-34.jpg"
+       data-alt="Single deep amber martini glass on dark bar — Bitter & Pour">
+      <img src="/portfolio/drink/bp-34.jpg" style="aspect-ratio:3/4"
+           alt="Single deep amber martini glass on dark bar — Bitter & Pour" loading="lazy">
+      <div class="pf-item__label">Drink</div>
     </a>
 
-    <a href="#" class="pf-item" data-category="food">
-      <img src="portfolio/food/ziggys-025.jpg" alt="Stacked fried chicken sandwich, close-up with pickles — Ziggys" loading="lazy">
-      <div class="overlay"><span class="overlay__label">Food</span></div>
+    <a href="#" class="pf-item" data-category="drink"
+       data-src="/portfolio/drink/bp-4776.jpg"
+       data-alt="Three coupe cocktails lined up on dark bar — Bitter & Pour">
+      <img src="/portfolio/drink/bp-4776.jpg" style="aspect-ratio:4/3"
+           alt="Three coupe cocktails lined up on dark bar — Bitter & Pour" loading="lazy">
+      <div class="pf-item__label">Drink</div>
     </a>
 
-    <!-- VIDEO category — show photo placeholders with play overlays until reels are ready -->
-    <!-- VIDEO: placeholder until reel is ready -->
-    <a href="#" class="pf-item pf-item--video" data-category="video">
-      <img src="portfolio/food/mezza9-4027.jpg" alt="Reel placeholder — restaurant environment, Mezza 9" loading="lazy">
-    </a>
-    <!-- VIDEO: placeholder until reel is ready -->
-    <a href="#" class="pf-item pf-item--video" data-category="video">
-      <img src="portfolio/drink/bp-4745.jpg" alt="Reel placeholder — cocktail action, Bitter & Pour" loading="lazy">
-    </a>
-    <!-- VIDEO: placeholder until reel is ready -->
-    <a href="#" class="pf-item pf-item--video" data-category="video">
-      <img src="portfolio/food/styling-1402.jpg" alt="Reel placeholder — pour into iced coffee, motion still" loading="lazy">
+    <!-- ══ PRODUCT ════════════════════════════════════════════════ -->
+
+    <a href="#" class="pf-item" data-category="product"
+       data-src="/portfolio/product/lls-2632.jpg"
+       data-alt="LL's Kitchen pecan pie granola bar held over scattered pecans">
+      <img src="/portfolio/product/lls-2632.jpg" style="aspect-ratio:3/4"
+           alt="LL's Kitchen pecan pie granola bar held over scattered pecans" loading="lazy">
+      <div class="pf-item__label">Product</div>
     </a>
 
-  </div>
+    <a href="#" class="pf-item" data-category="product"
+       data-src="/portfolio/product/sf-087.jpg"
+       data-alt="Stable Feed Papaya Chia packaging on white">
+      <img src="/portfolio/product/sf-087.jpg" style="aspect-ratio:4/3"
+           alt="Stable Feed Papaya Chia packaging on white" loading="lazy">
+      <div class="pf-item__label">Product</div>
+    </a>
+
+    <a href="#" class="pf-item" data-category="product"
+       data-src="/portfolio/product/sf-107.jpg"
+       data-alt="Stable Feed product flatlay with chia variations arranged in a circle">
+      <img src="/portfolio/product/sf-107.jpg" style="aspect-ratio:1/1"
+           alt="Stable Feed product flatlay with chia variations arranged in a circle" loading="lazy">
+      <div class="pf-item__label">Product</div>
+    </a>
+
+    <a href="#" class="pf-item" data-category="product"
+       data-src="/portfolio/product/lls-2639.jpg"
+       data-alt="LL's Kitchen pumpkin pie spice granola with mini pumpkins">
+      <img src="/portfolio/product/lls-2639.jpg" style="aspect-ratio:3/4"
+           alt="LL's Kitchen pumpkin pie spice granola with mini pumpkins" loading="lazy">
+      <div class="pf-item__label">Product</div>
+    </a>
+
+    <!-- ══ VIDEO ══════════════════════════════════════════════════
+         These use still frames as thumbnails. Replace src with
+         your actual poster/thumbnail images. Update href values
+         to link to video files or embed URLs when reels are ready.
+         ════════════════════════════════════════════════════════ -->
+
+    <a href="#" class="pf-item pf-item--video" data-category="video"
+       data-src="/portfolio/food/mezza9-4027.jpg"
+       data-alt="Reel — restaurant environment, Mezza 9">
+      <img src="/portfolio/food/mezza9-4027.jpg" style="aspect-ratio:9/16"
+           alt="Reel — restaurant environment, Mezza 9" loading="lazy">
+      <div class="pf-item__label">Video</div>
+    </a>
+
+    <a href="#" class="pf-item pf-item--video" data-category="video"
+       data-src="/portfolio/drink/bp-4745.jpg"
+       data-alt="Reel — cocktail action, Bitter & Pour">
+      <img src="/portfolio/drink/bp-4745.jpg" style="aspect-ratio:9/16"
+           alt="Reel — cocktail action, Bitter & Pour" loading="lazy">
+      <div class="pf-item__label">Video</div>
+    </a>
+
+    <a href="#" class="pf-item pf-item--video" data-category="video"
+       data-src="/portfolio/food/styling-1402.jpg"
+       data-alt="Reel — pour into iced coffee, motion still">
+      <img src="/portfolio/food/styling-1402.jpg" style="aspect-ratio:9/16"
+           alt="Reel — pour into iced coffee, motion still" loading="lazy">
+      <div class="pf-item__label">Video</div>
+    </a>
+
+  </div><!-- /masonry -->
 </section>
+
+<!-- ============== LIGHTBOX ============== -->
+<div class="lb-overlay" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button class="lb-btn lb-close" id="lbClose" aria-label="Close">&#x2715;</button>
+  <button class="lb-btn lb-prev"  id="lbPrev"  aria-label="Previous image">&#8592;</button>
+  <button class="lb-btn lb-next"  id="lbNext"  aria-label="Next image">&#8594;</button>
+  <div class="lb-inner">
+    <img class="lb-img" id="lbImg" src="" alt="">
+    <div class="lb-caption" id="lbCaption"></div>
+  </div>
+</div>
 
 <!-- ============== FOOTER ============== -->
 <footer class="footer">
   <div class="pattern-bg" style="opacity:0.08;"></div>
-
   <div class="footer__brand">
     <svg class="b-mark" viewBox="0 0 22 28" fill="none" aria-hidden="true">
       <g stroke="var(--cream)" stroke-width="1.4" fill="none" stroke-linecap="square">
-        <path d="M2 1 V27" />
-        <path d="M2 1 H11 a8 7 0 0 1 0 14 H2" />
+        <path d="M2 1 V27" /><path d="M2 1 H11 a8 7 0 0 1 0 14 H2" />
         <path d="M2 13 H13 a9 7 0 0 1 0 14 H2" />
       </g>
     </svg>
     <span class="name">Benazir's Photography</span>
   </div>
   <div class="footer__loc">Rochester, Minnesota · Est. 2025</div>
-
   <div class="footer__social">
     <a href="https://instagram.com/benazirsphotography" target="_blank" rel="noopener">Instagram</a>
     <a href="mailto:hello@benazirsphotography.com">Email</a>
   </div>
-
   <div class="footer__divider"></div>
   <div class="footer__bottom">© 2025 Benazir's Photography · All Rights Reserved</div>
 </footer>
 
 <script src="scripts.js"></script>
+<script>
+/* ══ FILTER ══════════════════════════════════════════════ */
+const filterBtns = document.querySelectorAll('.filter-bar__btn');
+const allItems   = document.querySelectorAll('.pf-item');
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    const f = btn.dataset.filter;
+    allItems.forEach(item => {
+      item.classList.toggle('is-hidden', f !== 'all' && item.dataset.category !== f);
+    });
+  });
+});
+
+/* ══ LIGHTBOX ════════════════════════════════════════════ */
+const lb        = document.getElementById('lightbox');
+const lbImg     = document.getElementById('lbImg');
+const lbCaption = document.getElementById('lbCaption');
+const lbClose   = document.getElementById('lbClose');
+const lbPrev    = document.getElementById('lbPrev');
+const lbNext    = document.getElementById('lbNext');
+
+let visibleItems = [];
+let currentIdx   = 0;
+
+function getVisible() {
+  return [...allItems].filter(el => !el.classList.contains('is-hidden'));
+}
+
+function openLightbox(idx) {
+  visibleItems = getVisible();
+  currentIdx   = idx;
+  showImage(currentIdx);
+  lb.classList.add('is-open');
+  document.body.style.overflow = 'hidden';
+}
+
+function showImage(idx) {
+  const item = visibleItems[idx];
+  if (!item) return;
+  const src = item.dataset.src || item.querySelector('img').src;
+  const alt = item.dataset.alt || item.querySelector('img').alt;
+  lbImg.style.opacity   = '0';
+  lbImg.style.transform = 'scale(.97)';
+  setTimeout(() => {
+    lbImg.src          = src;
+    lbImg.alt          = alt;
+    lbCaption.textContent = alt;
+    lbImg.style.opacity   = '1';
+    lbImg.style.transform = 'scale(1)';
+  }, 120);
+  lbPrev.style.display = visibleItems.length <= 1 ? 'none' : 'flex';
+  lbNext.style.display = visibleItems.length <= 1 ? 'none' : 'flex';
+}
+
+function closeLightbox() {
+  lb.classList.remove('is-open');
+  document.body.style.overflow = '';
+  setTimeout(() => { lbImg.src = ''; }, 300);
+}
+
+allItems.forEach(item => {
+  item.addEventListener('click', e => {
+    e.preventDefault();
+    const vis    = getVisible();
+    const visIdx = vis.indexOf(item);
+    if (visIdx > -1) openLightbox(visIdx);
+  });
+});
+
+lbClose.addEventListener('click', closeLightbox);
+lbPrev.addEventListener('click', () => {
+  currentIdx = (currentIdx - 1 + visibleItems.length) % visibleItems.length;
+  showImage(currentIdx);
+});
+lbNext.addEventListener('click', () => {
+  currentIdx = (currentIdx + 1) % visibleItems.length;
+  showImage(currentIdx);
+});
+
+/* Click backdrop to close */
+lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+
+/* Keyboard nav */
+document.addEventListener('keydown', e => {
+  if (!lb.classList.contains('is-open')) return;
+  if (e.key === 'Escape')     closeLightbox();
+  if (e.key === 'ArrowLeft')  { currentIdx = (currentIdx - 1 + visibleItems.length) % visibleItems.length; showImage(currentIdx); }
+  if (e.key === 'ArrowRight') { currentIdx = (currentIdx + 1) % visibleItems.length; showImage(currentIdx); }
+});
+</script>
 </body>
 </html>
