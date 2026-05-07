@@ -33,8 +33,8 @@
     --maroon:  #521B17;
     --font-display: 'aktiv-grotesk-extended', 'Archivo', sans-serif;
     --font-body:    'aktiv-grotesk', 'Archivo', sans-serif;
-    --grid-gap: 10px;
-    --col-count: 3;
+    --grid-gap: 6px;
+    --col-count: 4;
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -67,20 +67,24 @@
     border-color: var(--tumeric);
   }
 
+  /* JS-driven masonry: items absolutely positioned by JS for true row-first ordering */
   .portfolio-grid { padding: var(--grid-gap); }
-  .masonry { column-count: var(--col-count); column-gap: var(--grid-gap); }
+  .masonry {
+    position: relative;
+    width: 100%;
+  }
 
   .pf-item {
     display: block;
-    break-inside: avoid;
-    margin-bottom: var(--grid-gap);
-    position: relative;
+    position: absolute;
     overflow: hidden;
     cursor: zoom-in;
     background: rgba(255,255,255,.04);
+    transition: opacity .25s ease;
   }
   .pf-item img {
-    display: block; width: 100%; height: auto;
+    display: block; width: 100%; height: 100%;
+    object-fit: cover;
     transition: transform .45s cubic-bezier(.25,.46,.45,.94), filter .35s ease;
     filter: brightness(.95);
   }
@@ -89,10 +93,10 @@
   .pf-item__label {
     position: absolute;
     bottom: 0; left: 0; right: 0;
-    padding: 28px 14px 12px;
-    background: linear-gradient(transparent, rgba(35,28,20,.72));
+    padding: 22px 12px 10px;
+    background: linear-gradient(transparent, rgba(35,28,20,.82));
     font-family: var(--font-display);
-    font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+    font-size: 9px; letter-spacing: .16em; text-transform: uppercase;
     color: var(--cream);
     opacity: 0;
     transform: translateY(6px);
@@ -102,9 +106,12 @@
   .pf-item:hover .pf-item__label { opacity: 1; transform: translateY(0); }
   .pf-item.is-hidden { display: none; }
 
-  @media (max-width: 900px)  { :root { --col-count: 2; } }
-  @media (max-width: 500px)  { :root { --col-count: 1; } }
+  /* Responsive column counts */
+  @media (max-width: 1100px) { :root { --col-count: 3; } }
+  @media (max-width: 700px)  { :root { --col-count: 2; } }
+  @media (max-width: 420px)  { :root { --col-count: 1; } }
 
+  /* Lightbox */
   .lb-overlay {
     display: none;
     position: fixed; inset: 0; z-index: 1000;
@@ -211,8 +218,8 @@
 
 <section class="mini-hero">
   <div class="mini-hero__pattern" aria-hidden="true"></div>
-  <img src="assets/logos/Primary_Tagline_Cream.svg" alt="Benazir's Photography"
-       style="height:200px;width:auto;display:block;margin:0 auto;">
+  <img src="assets/logos/Benazirs_Photography_PrimaryArtboard 7.svg" alt="Benazir's Photography"
+       style="height:103px;width:auto;display:block;margin:0 auto;">
   <h1>Portfolio</h1>
   <div class="mini-hero__cats">Food · Drink · Product · Brand &amp; Lifestyle · Architectural</div>
 </section>
@@ -228,375 +235,11 @@
 
 <section class="portfolio-grid" id="portfolio">
   <div class="masonry" id="masonryGrid">
-
-    <!-- Sorted lightest → darkest, brand-only alt text -->
-    <a href="#" class="pf-item" data-category="product"
-       data-src="portfolio/product/stable-feed-stable-feed-107-edit.jpg"
-       data-alt="Stable Feed">
-      <img src="portfolio/product/stable-feed-stable-feed-107-edit.jpg" style="aspect-ratio:2/3"
-           alt="Stable Feed" loading="lazy">
-      <div class="pf-item__label">Product</div>
-    </a>
-    <a href="#" class="pf-item" data-category="product"
-       data-src="portfolio/product/stable-feed-stable-feed-087-edit.jpg"
-       data-alt="Stable Feed">
-      <img src="portfolio/product/stable-feed-stable-feed-087-edit.jpg" style="aspect-ratio:3721/5581"
-           alt="Stable Feed" loading="lazy">
-      <div class="pf-item__label">Product</div>
-    </a>
-    <a href="#" class="pf-item" data-category="product"
-       data-src="portfolio/product/stable-feed-stable-feed-120-edit.jpg"
-       data-alt="Stable Feed">
-      <img src="portfolio/product/stable-feed-stable-feed-120-edit.jpg" style="aspect-ratio:3823/2549"
-           alt="Stable Feed" loading="lazy">
-      <div class="pf-item__label">Product</div>
-    </a>
-    <a href="#" class="pf-item" data-category="product"
-       data-src="portfolio/product/cowbell-purple-can-front-and-side-studio.jpg"
-       data-alt="Cowbell">
-      <img src="portfolio/product/cowbell-purple-can-front-and-side-studio.jpg" style="aspect-ratio:2/3"
-           alt="Cowbell" loading="lazy">
-      <div class="pf-item__label">Product</div>
-    </a>
-    <a href="#" class="pf-item" data-category="product"
-       data-src="portfolio/product/busy-lizzy-25-bundt-cake-slice-action.jpg"
-       data-alt="Busy Lizzy">
-      <img src="portfolio/product/busy-lizzy-25-bundt-cake-slice-action.jpg" style="aspect-ratio:2/3"
-           alt="Busy Lizzy" loading="lazy">
-      <div class="pf-item__label">Product</div>
-    </a>
-    <a href="#" class="pf-item" data-category="product"
-       data-src="portfolio/product/popus-2853-caramel-popcorn-spilling-overhead.jpg"
-       data-alt="Popus">
-      <img src="portfolio/product/popus-2853-caramel-popcorn-spilling-overhead.jpg" style="aspect-ratio:3/2"
-           alt="Popus" loading="lazy">
-      <div class="pf-item__label">Product</div>
-    </a>
-    <a href="#" class="pf-item" data-category="food"
-       data-src="portfolio/food/ootori-sushi-ootori-full-res-29.jpg"
-       data-alt="Ootori">
-      <img src="portfolio/food/ootori-sushi-ootori-full-res-29.jpg" style="aspect-ratio:2/3"
-           alt="Ootori" loading="lazy">
-      <div class="pf-item__label">Food</div>
-    </a>
-    <a href="#" class="pf-item" data-category="brand"
-       data-src="portfolio/brand-lifestyle/neighborly-ncgp-25-voucher-with-bbq-branding-wall.jpg"
-       data-alt="Neighborly">
-      <img src="portfolio/brand-lifestyle/neighborly-ncgp-25-voucher-with-bbq-branding-wall.jpg" style="aspect-ratio:2/3"
-           alt="Neighborly" loading="lazy">
-      <div class="pf-item__label">Brand</div>
-    </a>
-    <a href="#" class="pf-item" data-category="architectural"
-       data-src="portfolio/architectural/mill-valley-kitchen-104a9491-wicker-pendants.jpg"
-       data-alt="Mill Valley Kitchen">
-      <img src="portfolio/architectural/mill-valley-kitchen-104a9491-wicker-pendants.jpg" style="aspect-ratio:2/3"
-           alt="Mill Valley Kitchen" loading="lazy">
-      <div class="pf-item__label">Architectural</div>
-    </a>
-    <a href="#" class="pf-item" data-category="food"
-       data-src="portfolio/food/neighborly-ncgp-100-mexican-takeout-spread-overhead.jpg"
-       data-alt="Neighborly">
-      <img src="portfolio/food/neighborly-ncgp-100-mexican-takeout-spread-overhead.jpg" style="aspect-ratio:2/3"
-           alt="Neighborly" loading="lazy">
-      <div class="pf-item__label">Food</div>
-    </a>
-    <a href="#" class="pf-item" data-category="product"
-       data-src="portfolio/product/busy-lizzy-15-cookie-box-variety-with-sprinkles.jpg"
-       data-alt="Busy Lizzy">
-      <img src="portfolio/product/busy-lizzy-15-cookie-box-variety-with-sprinkles.jpg" style="aspect-ratio:2/3"
-           alt="Busy Lizzy" loading="lazy">
-      <div class="pf-item__label">Product</div>
-    </a>
-    <a href="#" class="pf-item" data-category="food"
-       data-src="portfolio/food/ziggys-ziggys-101.jpg"
-       data-alt="Ziggys">
-      <img src="portfolio/food/ziggys-ziggys-101.jpg" style="aspect-ratio:2/3"
-           alt="Ziggys" loading="lazy">
-      <div class="pf-item__label">Food</div>
-    </a>
-    <a href="#" class="pf-item" data-category="product"
-       data-src="portfolio/product/popus-2820-cheese-popcorn-bowl-with-scatter.jpg"
-       data-alt="Popus">
-      <img src="portfolio/product/popus-2820-cheese-popcorn-bowl-with-scatter.jpg" style="aspect-ratio:2/3"
-           alt="Popus" loading="lazy">
-      <div class="pf-item__label">Product</div>
-    </a>
-    <a href="#" class="pf-item" data-category="food"
-       data-src="portfolio/food/mezza9-104a4102.jpg"
-       data-alt="Mezza 9">
-      <img src="portfolio/food/mezza9-104a4102.jpg" style="aspect-ratio:3/2"
-           alt="Mezza 9" loading="lazy">
-      <div class="pf-item__label">Food</div>
-    </a>
-    <a href="#" class="pf-item" data-category="food"
-       data-src="portfolio/food/cameo-cameo062020-high-res-13.jpg"
-       data-alt="Cameo">
-      <img src="portfolio/food/cameo-cameo062020-high-res-13.jpg" style="aspect-ratio:3973/5959"
-           alt="Cameo" loading="lazy">
-      <div class="pf-item__label">Food</div>
-    </a>
-    <a href="#" class="pf-item" data-category="drink"
-       data-src="portfolio/food/mezza9-0985-rose-milk-macro-with-rose-buds.jpg"
-       data-alt="Mezza 9">
-      <img src="portfolio/food/mezza9-0985-rose-milk-macro-with-rose-buds.jpg" style="aspect-ratio:2/3"
-           alt="Mezza 9" loading="lazy">
-      <div class="pf-item__label">Drink</div>
-    </a>
-    <a href="#" class="pf-item" data-category="drink"
-       data-src="portfolio/food/mezza9-0973-strawberry-matcha-layered-with-blossoms.jpg"
-       data-alt="Mezza 9">
-      <img src="portfolio/food/mezza9-0973-strawberry-matcha-layered-with-blossoms.jpg" style="aspect-ratio:2/3"
-           alt="Mezza 9" loading="lazy">
-      <div class="pf-item__label">Drink</div>
-    </a>
-    <a href="#" class="pf-item" data-category="food"
-       data-src="portfolio/food/ootori-sushi-ootori-full-res-13.jpg"
-       data-alt="Ootori">
-      <img src="portfolio/food/ootori-sushi-ootori-full-res-13.jpg" style="aspect-ratio:4404/6607"
-           alt="Ootori" loading="lazy">
-      <div class="pf-item__label">Food</div>
-    </a>
-    <a href="#" class="pf-item" data-category="food"
-       data-src="portfolio/food/ziggys-ziggys-127.jpg"
-       data-alt="Ziggys">
-      <img src="portfolio/food/ziggys-ziggys-127.jpg" style="aspect-ratio:3987/5981"
-           alt="Ziggys" loading="lazy">
-      <div class="pf-item__label">Food</div>
-    </a>
-    <a href="#" class="pf-item" data-category="food"
-       data-src="portfolio/food/mezza9-104a4058.jpg"
-       data-alt="Mezza 9">
-      <img src="portfolio/food/mezza9-104a4058.jpg" style="aspect-ratio:2/3"
-           alt="Mezza 9" loading="lazy">
-      <div class="pf-item__label">Food</div>
-    </a>
-    <a href="#" class="pf-item" data-category="product"
-       data-src="portfolio/product/lls-kitchen-104a2639-pumpkin-spice-mini-pumpkins.jpg"
-       data-alt="LL's Kitchen">
-      <img src="portfolio/product/lls-kitchen-104a2639-pumpkin-spice-mini-pumpkins.jpg" style="aspect-ratio:5209/3473"
-           alt="LL's Kitchen" loading="lazy">
-      <div class="pf-item__label">Product</div>
-    </a>
-    <a href="#" class="pf-item" data-category="product"
-       data-src="portfolio/product/lls-kitchen-104a2632-pecan-pie-hand-pecans.jpg"
-       data-alt="LL's Kitchen">
-      <img src="portfolio/product/lls-kitchen-104a2632-pecan-pie-hand-pecans.jpg" style="aspect-ratio:3583/5374"
-           alt="LL's Kitchen" loading="lazy">
-      <div class="pf-item__label">Product</div>
-    </a>
-    <a href="#" class="pf-item" data-category="brand"
-       data-src="portfolio/brand-lifestyle/cowbell-cowbell-high-res-73.jpg"
-       data-alt="Cowbell">
-      <img src="portfolio/brand-lifestyle/cowbell-cowbell-high-res-73.jpg" style="aspect-ratio:2/3"
-           alt="Cowbell" loading="lazy">
-      <div class="pf-item__label">Brand</div>
-    </a>
-    <a href="#" class="pf-item" data-category="product"
-       data-src="portfolio/product/lls-kitchen-104a3915-blood-orange-apricot-bar-in-hands.jpg"
-       data-alt="LL's Kitchen">
-      <img src="portfolio/product/lls-kitchen-104a3915-blood-orange-apricot-bar-in-hands.jpg" style="aspect-ratio:2/3"
-           alt="LL's Kitchen" loading="lazy">
-      <div class="pf-item__label">Product</div>
-    </a>
-    <a href="#" class="pf-item" data-category="architectural"
-       data-src="portfolio/architectural/mill-valley-kitchen-104a9486-bar-stools-cow-art.jpg"
-       data-alt="Mill Valley Kitchen">
-      <img src="portfolio/architectural/mill-valley-kitchen-104a9486-bar-stools-cow-art.jpg" style="aspect-ratio:2/3"
-           alt="Mill Valley Kitchen" loading="lazy">
-      <div class="pf-item__label">Architectural</div>
-    </a>
-    <a href="#" class="pf-item" data-category="brand"
-       data-src="portfolio/brand-lifestyle/ncgprogram-52.jpg"
-       data-alt="NCG Program">
-      <img src="portfolio/brand-lifestyle/ncgprogram-52.jpg" style="aspect-ratio:2/3"
-           alt="NCG Program" loading="lazy">
-      <div class="pf-item__label">Brand</div>
-    </a>
-    <a href="#" class="pf-item" data-category="drink"
-       data-src="portfolio/food/two-sisters-tskb-500-iced-coffee-cream-pour.jpg"
-       data-alt="Two Sisters">
-      <img src="portfolio/food/two-sisters-tskb-500-iced-coffee-cream-pour.jpg" style="aspect-ratio:2/3"
-           alt="Two Sisters" loading="lazy">
-      <div class="pf-item__label">Drink</div>
-    </a>
-    <a href="#" class="pf-item" data-category="food"
-       data-src="portfolio/food/two-sisters-tskb-400-french-toast-action-with-apples.jpg"
-       data-alt="Two Sisters">
-      <img src="portfolio/food/two-sisters-tskb-400-french-toast-action-with-apples.jpg" style="aspect-ratio:6460/4307"
-           alt="Two Sisters" loading="lazy">
-      <div class="pf-item__label">Food</div>
-    </a>
-    <a href="#" class="pf-item" data-category="food"
-       data-src="portfolio/food/ziggys-ziggys-025.jpg"
-       data-alt="Ziggys">
-      <img src="portfolio/food/ziggys-ziggys-025.jpg" style="aspect-ratio:4295/6442"
-           alt="Ziggys" loading="lazy">
-      <div class="pf-item__label">Food</div>
-    </a>
-    <a href="#" class="pf-item" data-category="drink"
-       data-src="portfolio/food/mill-valley-kitchen-104a9558-coupe-with-bokeh.jpg"
-       data-alt="Mill Valley Kitchen">
-      <img src="portfolio/food/mill-valley-kitchen-104a9558-coupe-with-bokeh.jpg" style="aspect-ratio:2/3"
-           alt="Mill Valley Kitchen" loading="lazy">
-      <div class="pf-item__label">Drink</div>
-    </a>
-    <a href="#" class="pf-item" data-category="product"
-       data-src="portfolio/product/lls-kitchen-104a2598-campfire-crunch-with-marshmallows.jpg"
-       data-alt="LL's Kitchen">
-      <img src="portfolio/product/lls-kitchen-104a2598-campfire-crunch-with-marshmallows.jpg" style="aspect-ratio:3319/4978"
-           alt="LL's Kitchen" loading="lazy">
-      <div class="pf-item__label">Product</div>
-    </a>
-    <a href="#" class="pf-item" data-category="brand"
-       data-src="portfolio/brand-lifestyle/ncgprogramday2-78.jpg"
-       data-alt="NCG Program">
-      <img src="portfolio/brand-lifestyle/ncgprogramday2-78.jpg" style="aspect-ratio:2981/4471"
-           alt="NCG Program" loading="lazy">
-      <div class="pf-item__label">Brand</div>
-    </a>
-    <a href="#" class="pf-item" data-category="drink"
-       data-src="portfolio/food/mill-valley-kitchen-104a9546-negroni-in-sunlight.jpg"
-       data-alt="Mill Valley Kitchen">
-      <img src="portfolio/food/mill-valley-kitchen-104a9546-negroni-in-sunlight.jpg" style="aspect-ratio:2/3"
-           alt="Mill Valley Kitchen" loading="lazy">
-      <div class="pf-item__label">Drink</div>
-    </a>
-    <a href="#" class="pf-item" data-category="drink"
-       data-src="portfolio/food/mill-valley-kitchen-104a9531-old-fashioned-with-bitters.jpg"
-       data-alt="Mill Valley Kitchen">
-      <img src="portfolio/food/mill-valley-kitchen-104a9531-old-fashioned-with-bitters.jpg" style="aspect-ratio:2/3"
-           alt="Mill Valley Kitchen" loading="lazy">
-      <div class="pf-item__label">Drink</div>
-    </a>
-    <a href="#" class="pf-item" data-category="architectural"
-       data-src="portfolio/architectural/two-sisters-tskb-1-cafe-entrance-signage-golden-hour.jpg"
-       data-alt="Two Sisters">
-      <img src="portfolio/architectural/two-sisters-tskb-1-cafe-entrance-signage-golden-hour.jpg" style="aspect-ratio:3621/5432"
-           alt="Two Sisters" loading="lazy">
-      <div class="pf-item__label">Architectural</div>
-    </a>
-    <a href="#" class="pf-item" data-category="brand"
-       data-src="portfolio/brand-lifestyle/cowbell-cowbell-high-res-37.jpg"
-       data-alt="Cowbell">
-      <img src="portfolio/brand-lifestyle/cowbell-cowbell-high-res-37.jpg" style="aspect-ratio:2/3"
-           alt="Cowbell" loading="lazy">
-      <div class="pf-item__label">Brand</div>
-    </a>
-    <a href="#" class="pf-item" data-category="brand"
-       data-src="portfolio/brand-lifestyle/cowbell-cowbell-high-res-30.jpg"
-       data-alt="Cowbell">
-      <img src="portfolio/brand-lifestyle/cowbell-cowbell-high-res-30.jpg" style="aspect-ratio:3/2"
-           alt="Cowbell" loading="lazy">
-      <div class="pf-item__label">Brand</div>
-    </a>
-    <a href="#" class="pf-item" data-category="food"
-       data-src="portfolio/food/ourpaladar-7997-filet-mignon-with-asparagus-slate.jpg"
-       data-alt="Our Paladar">
-      <img src="portfolio/food/ourpaladar-7997-filet-mignon-with-asparagus-slate.jpg" style="aspect-ratio:3/2"
-           alt="Our Paladar" loading="lazy">
-      <div class="pf-item__label">Food</div>
-    </a>
-    <a href="#" class="pf-item" data-category="food"
-       data-src="portfolio/food/ourpaladar-7976-steak-and-caesar-overhead.jpg"
-       data-alt="Our Paladar">
-      <img src="portfolio/food/ourpaladar-7976-steak-and-caesar-overhead.jpg" style="aspect-ratio:2/3"
-           alt="Our Paladar" loading="lazy">
-      <div class="pf-item__label">Food</div>
-    </a>
-    <a href="#" class="pf-item" data-category="food"
-       data-src="portfolio/food/1928-fr2-015-udon-noodles-overhead-chopsticks.jpg"
-       data-alt="1928">
-      <img src="portfolio/food/1928-fr2-015-udon-noodles-overhead-chopsticks.jpg" style="aspect-ratio:2/3"
-           alt="1928" loading="lazy">
-      <div class="pf-item__label">Food</div>
-    </a>
-    <a href="#" class="pf-item" data-category="drink"
-       data-src="portfolio/food/bitter-and-pour-5984-bitters-atomized-on-crushed-ice.jpg"
-       data-alt="Bitter &amp; Pour">
-      <img src="portfolio/food/bitter-and-pour-5984-bitters-atomized-on-crushed-ice.jpg" style="aspect-ratio:2/3"
-           alt="Bitter &amp; Pour" loading="lazy">
-      <div class="pf-item__label">Drink</div>
-    </a>
-    <a href="#" class="pf-item" data-category="drink"
-       data-src="portfolio/food/1928-fr2-090-highball-with-seaweed-clothespin.jpg"
-       data-alt="1928">
-      <img src="portfolio/food/1928-fr2-090-highball-with-seaweed-clothespin.jpg" style="aspect-ratio:3989/5983"
-           alt="1928" loading="lazy">
-      <div class="pf-item__label">Drink</div>
-    </a>
-    <a href="#" class="pf-item" data-category="food"
-       data-src="portfolio/food/cameo-cameo062020-high-res-2.jpg"
-       data-alt="Cameo">
-      <img src="portfolio/food/cameo-cameo062020-high-res-2.jpg" style="aspect-ratio:2/3"
-           alt="Cameo" loading="lazy">
-      <div class="pf-item__label">Food</div>
-    </a>
-    <a href="#" class="pf-item" data-category="food"
-       data-src="portfolio/food/cameo-cameo062020-high-res-25.jpg"
-       data-alt="Cameo">
-      <img src="portfolio/food/cameo-cameo062020-high-res-25.jpg" style="aspect-ratio:2/3"
-           alt="Cameo" loading="lazy">
-      <div class="pf-item__label">Food</div>
-    </a>
-    <a href="#" class="pf-item" data-category="drink"
-       data-src="portfolio/food/bitter-and-pour-img-4895.jpg"
-       data-alt="Bitter &amp; Pour">
-      <img src="portfolio/food/bitter-and-pour-img-4895.jpg" style="aspect-ratio:4543/3029"
-           alt="Bitter &amp; Pour" loading="lazy">
-      <div class="pf-item__label">Drink</div>
-    </a>
-    <a href="#" class="pf-item" data-category="drink"
-       data-src="portfolio/food/bp-104a6200.jpg"
-       data-alt="Bitter &amp; Pour">
-      <img src="portfolio/food/bp-104a6200.jpg" style="aspect-ratio:4395/6592"
-           alt="Bitter &amp; Pour" loading="lazy">
-      <div class="pf-item__label">Drink</div>
-    </a>
-    <a href="#" class="pf-item" data-category="food"
-       data-src="portfolio/food/1928-fr2-001-beef-bowl-with-cocktail-red-velvet.jpg"
-       data-alt="1928">
-      <img src="portfolio/food/1928-fr2-001-beef-bowl-with-cocktail-red-velvet.jpg" style="aspect-ratio:4453/6680"
-           alt="1928" loading="lazy">
-      <div class="pf-item__label">Food</div>
-    </a>
-    <a href="#" class="pf-item" data-category="drink"
-       data-src="portfolio/food/bp-104a6212.jpg"
-       data-alt="Bitter &amp; Pour">
-      <img src="portfolio/food/bp-104a6212.jpg" style="aspect-ratio:3/2"
-           alt="Bitter &amp; Pour" loading="lazy">
-      <div class="pf-item__label">Drink</div>
-    </a>
-    <a href="#" class="pf-item" data-category="drink"
-       data-src="portfolio/food/1928-fr2-110-highball-with-orchid-garnish.jpg"
-       data-alt="1928">
-      <img src="portfolio/food/1928-fr2-110-highball-with-orchid-garnish.jpg" style="aspect-ratio:2/3"
-           alt="1928" loading="lazy">
-      <div class="pf-item__label">Drink</div>
-    </a>
-    <a href="#" class="pf-item" data-category="food"
-       data-src="portfolio/food/1928-fr2-030-pasta-with-martini-moody.jpg"
-       data-alt="1928">
-      <img src="portfolio/food/1928-fr2-030-pasta-with-martini-moody.jpg" style="aspect-ratio:4457/6685"
-           alt="1928" loading="lazy">
-      <div class="pf-item__label">Food</div>
-    </a>
-    <a href="#" class="pf-item" data-category="drink"
-       data-src="portfolio/food/1928-fr2-060-manhattan-red-velvet-hero.jpg"
-       data-alt="1928">
-      <img src="portfolio/food/1928-fr2-060-manhattan-red-velvet-hero.jpg" style="aspect-ratio:2/3"
-           alt="1928" loading="lazy">
-      <div class="pf-item__label">Drink</div>
-    </a>
-    <a href="#" class="pf-item" data-category="brand"
-       data-src="portfolio/brand-lifestyle/1928-fr2-075-bartender-pour-asian-portrait.jpg"
-       data-alt="1928">
-      <img src="portfolio/brand-lifestyle/1928-fr2-075-bartender-pour-asian-portrait.jpg" style="aspect-ratio:2/3"
-           alt="1928" loading="lazy">
-      <div class="pf-item__label">Brand</div>
-    </a>
-
-  </div><!-- /masonry -->
+    <!-- Photos loaded dynamically from photos.json — edit that file to add/remove/recategorize images -->
+  </div>
 </section>
+
+
 
 <div class="lb-overlay" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
   <button class="lb-btn lb-close" id="lbClose" aria-label="Close">&#x2715;</button>
@@ -611,12 +254,8 @@
 <footer class="footer">
   <div class="pattern-bg" style="opacity:0.08;"></div>
   <div class="footer__brand">
-    <svg class="b-mark" viewBox="0 0 22 28" fill="none" aria-hidden="true">
-      <g stroke="var(--cream)" stroke-width="1.4" fill="none" stroke-linecap="square">
-        <path d="M2 1 V27" /><path d="M2 1 H11 a8 7 0 0 1 0 14 H2" />
-        <path d="M2 13 H13 a9 7 0 0 1 0 14 H2" />
-      </g>
-    </svg>
+      <img src="assets/logos/Benazirs_Photography_PrimaryArtboard 7.svg" alt="Benazir's Photography"
+           style="height:103px;width:auto;display:block;margin:0 auto;">
     <span class="name">Benazir's Photography</span>
   </div>
   <div class="footer__loc">Rochester, Minnesota · Est. 2025</div>
@@ -630,93 +269,201 @@
 
 <script src="scripts.js"></script>
 <script>
-const filterBtns = document.querySelectorAll('.filter-bar__btn');
-const allItems   = document.querySelectorAll('.pf-item');
+/* ══════════════════════════════════════════════════════════
+   PHOTO GRID — driven by photos.json
+   To add/remove/recategorize images, edit photos.json only.
+   ════════════════════════════════════════════════════════ */
+(function () {
+  'use strict';
+  var pfGrid   = document.getElementById('masonryGrid');
+  var pfBtns   = document.querySelectorAll('.filter-bar__btn');
+  var PF_GAP   = 6;
+  var allItems = [];
 
-filterBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    filterBtns.forEach(b => b.classList.remove('is-active'));
-    btn.classList.add('is-active');
-    const f = btn.dataset.filter;
-    allItems.forEach(item => {
-      item.classList.toggle('is-hidden', f !== 'all' && item.dataset.category !== f);
+  /* ── Build grid from photos.json ─────────────────────── */
+  function loadPortfolio() {
+    fetch('photos.json')
+      .then(function(res) {
+        if (!res.ok) throw new Error(res.status + ' — photos.json not found');
+        return res.json();
+      })
+      .then(buildGrid)
+      .catch(function(err) {
+        pfGrid.innerHTML = '<p style="color:var(--cream);padding:40px;font-family:var(--font-body)">Could not load photos.json: ' + err + '</p>';
+        console.error(err);
+      });
+  }
+
+  function buildGrid(photos) {
+    pfGrid.innerHTML = '';
+    photos.forEach(function(photo) {
+      var a               = document.createElement('a');
+      a.href              = '#';
+      a.className         = 'pf-item';
+      a.dataset.category  = photo.cat;
+      a.dataset.src       = photo.src;
+      a.dataset.alt       = photo.brand;
+
+      var img             = document.createElement('img');
+      img.src             = photo.src;
+      img.alt             = photo.brand;
+      img.loading         = 'lazy';
+      img.style.aspectRatio = photo.ratio;
+
+      var label           = document.createElement('div');
+      label.className     = 'pf-item__label';
+      label.textContent   = photo.brand;
+
+      a.appendChild(img);
+      a.appendChild(label);
+      pfGrid.appendChild(a);
     });
+
+    allItems = Array.from(pfGrid.querySelectorAll('.pf-item'));
+    bindFilters();
+    bindLightbox();
+    layoutMasonry();
+  }
+  /* ── Masonry ─────────────────────────────────────────── */
+  function getColCount() {
+    var cs = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--col-count'));
+    return Math.max(1, cs || 4);
+  }
+
+  function layoutMasonry() {
+    var cols       = getColCount();
+    var gridWidth  = pfGrid.clientWidth;
+    if (gridWidth <= 0) return;
+    var colWidth   = (gridWidth - PF_GAP * (cols - 1)) / cols;
+    var colHeights = new Array(cols).fill(0);
+
+    allItems.forEach(function(item) {
+      if (item.classList.contains('is-hidden')) {
+        item.style.visibility = 'hidden';
+        return;
+      }
+      item.style.visibility = 'visible';
+
+      var minIdx = 0;
+      for (var i = 1; i < cols; i++) {
+        if (colHeights[i] < colHeights[minIdx]) minIdx = i;
+      }
+
+      var img        = item.querySelector('img');
+      var arStr      = img.style.aspectRatio || '1/1';
+      var parts      = arStr.split('/').map(Number);
+      var itemHeight = colWidth * (parts[1] / parts[0]);
+
+      item.style.width  = colWidth + 'px';
+      item.style.height = itemHeight + 'px';
+      item.style.left   = (minIdx * (colWidth + PF_GAP)) + 'px';
+      item.style.top    = colHeights[minIdx] + 'px';
+
+      colHeights[minIdx] += itemHeight + PF_GAP;
+    });
+
+    pfGrid.style.height = Math.max.apply(null, colHeights) + 'px';
+  }
+
+  /* ── Filter ──────────────────────────────────────────── */
+  function bindFilters() {
+    pfBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        pfBtns.forEach(function(b) { b.classList.remove('is-active'); });
+        btn.classList.add('is-active');
+        var f = btn.dataset.filter;
+        allItems.forEach(function(item) {
+          item.classList.toggle('is-hidden', f !== 'all' && item.dataset.category !== f);
+        });
+        layoutMasonry();
+      });
+    });
+  }
+
+  /* ── Lightbox ────────────────────────────────────────── */
+  var lb        = document.getElementById('lightbox');
+  var lbImg     = document.getElementById('lbImg');
+  var lbCaption = document.getElementById('lbCaption');
+  var lbClose   = document.getElementById('lbClose');
+  var lbPrev    = document.getElementById('lbPrev');
+  var lbNext    = document.getElementById('lbNext');
+  var visItems  = [];
+  var curIdx    = 0;
+
+  function getVisible() {
+    return allItems.filter(function(el) { return !el.classList.contains('is-hidden'); });
+  }
+
+  function showImage(idx) {
+    var item = visItems[idx];
+    if (!item) return;
+    var src = item.dataset.src || item.querySelector('img').src;
+    var alt = item.dataset.alt || item.querySelector('img').alt;
+    lbImg.style.opacity   = '0';
+    lbImg.style.transform = 'scale(.97)';
+    setTimeout(function() {
+      lbImg.src             = src;
+      lbImg.alt             = alt;
+      lbCaption.textContent = alt;
+      lbImg.style.opacity   = '1';
+      lbImg.style.transform = 'scale(1)';
+    }, 120);
+    lbPrev.style.display = visItems.length <= 1 ? 'none' : 'flex';
+    lbNext.style.display = visItems.length <= 1 ? 'none' : 'flex';
+  }
+
+  function openLightbox(idx) {
+    visItems = getVisible();
+    curIdx   = idx;
+    showImage(curIdx);
+    lb.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lb.classList.remove('is-open');
+    document.body.style.overflow = '';
+    setTimeout(function() { lbImg.src = ''; }, 300);
+  }
+
+  function bindLightbox() {
+    allItems.forEach(function(item) {
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        var vis    = getVisible();
+        var visIdx = vis.indexOf(item);
+        if (visIdx > -1) openLightbox(visIdx);
+      });
+    });
+    lbClose.addEventListener('click', closeLightbox);
+    lbPrev.addEventListener('click', function() {
+      curIdx = (curIdx - 1 + visItems.length) % visItems.length;
+      showImage(curIdx);
+    });
+    lbNext.addEventListener('click', function() {
+      curIdx = (curIdx + 1) % visItems.length;
+      showImage(curIdx);
+    });
+    lb.addEventListener('click', function(e) { if (e.target === lb) closeLightbox(); });
+    document.addEventListener('keydown', function(e) {
+      if (!lb.classList.contains('is-open')) return;
+      if (e.key === 'Escape')     closeLightbox();
+      if (e.key === 'ArrowLeft')  { curIdx = (curIdx - 1 + visItems.length) % visItems.length; showImage(curIdx); }
+      if (e.key === 'ArrowRight') { curIdx = (curIdx + 1) % visItems.length; showImage(curIdx); }
+    });
+  }
+
+  /* ── Resize ──────────────────────────────────────────── */
+  var resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(layoutMasonry, 100);
   });
-});
 
-const lb        = document.getElementById('lightbox');
-const lbImg     = document.getElementById('lbImg');
-const lbCaption = document.getElementById('lbCaption');
-const lbClose   = document.getElementById('lbClose');
-const lbPrev    = document.getElementById('lbPrev');
-const lbNext    = document.getElementById('lbNext');
+  /* ── Boot ────────────────────────────────────────────── */
+  loadPortfolio();
 
-let visibleItems = [];
-let currentIdx   = 0;
-
-function getVisible() {
-  return [...allItems].filter(el => !el.classList.contains('is-hidden'));
-}
-
-function openLightbox(idx) {
-  visibleItems = getVisible();
-  currentIdx   = idx;
-  showImage(currentIdx);
-  lb.classList.add('is-open');
-  document.body.style.overflow = 'hidden';
-}
-
-function showImage(idx) {
-  const item = visibleItems[idx];
-  if (!item) return;
-  const src = item.dataset.src || item.querySelector('img').src;
-  const alt = item.dataset.alt || item.querySelector('img').alt;
-  lbImg.style.opacity   = '0';
-  lbImg.style.transform = 'scale(.97)';
-  setTimeout(() => {
-    lbImg.src          = src;
-    lbImg.alt          = alt;
-    lbCaption.textContent = alt;
-    lbImg.style.opacity   = '1';
-    lbImg.style.transform = 'scale(1)';
-  }, 120);
-  lbPrev.style.display = visibleItems.length <= 1 ? 'none' : 'flex';
-  lbNext.style.display = visibleItems.length <= 1 ? 'none' : 'flex';
-}
-
-function closeLightbox() {
-  lb.classList.remove('is-open');
-  document.body.style.overflow = '';
-  setTimeout(() => { lbImg.src = ''; }, 300);
-}
-
-allItems.forEach(item => {
-  item.addEventListener('click', e => {
-    e.preventDefault();
-    const vis    = getVisible();
-    const visIdx = vis.indexOf(item);
-    if (visIdx > -1) openLightbox(visIdx);
-  });
-});
-
-lbClose.addEventListener('click', closeLightbox);
-lbPrev.addEventListener('click', () => {
-  currentIdx = (currentIdx - 1 + visibleItems.length) % visibleItems.length;
-  showImage(currentIdx);
-});
-lbNext.addEventListener('click', () => {
-  currentIdx = (currentIdx + 1) % visibleItems.length;
-  showImage(currentIdx);
-});
-
-lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
-
-document.addEventListener('keydown', e => {
-  if (!lb.classList.contains('is-open')) return;
-  if (e.key === 'Escape')     closeLightbox();
-  if (e.key === 'ArrowLeft')  { currentIdx = (currentIdx - 1 + visibleItems.length) % visibleItems.length; showImage(currentIdx); }
-  if (e.key === 'ArrowRight') { currentIdx = (currentIdx + 1) % visibleItems.length; showImage(currentIdx); }
-});
+})();
 </script>
 </body>
 </html>
